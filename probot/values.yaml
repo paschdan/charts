@@ -2,12 +2,26 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+image:
+  repository: node
+  tag: alpine
+  pullPolicy: IfNotPresent
+
+git:
+  registry: docker.io
+  repository: bitnami/git
+  tag: 2.23.0-debian-9-r3
+  pullPolicy: IfNotPresent
+
+repository:  https://github.com/paschdan/probot-assignee.git
+
+## Specify the number of replicas for the application
+##
 replicaCount: 1
 
-image:
-  repository: nginx
-  tag: stable
-  pullPolicy: IfNotPresent
+## Specify the port where your application will be running
+##
+applicationPort: 3000
 
 imagePullSecrets: []
 nameOverride: ""
