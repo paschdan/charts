@@ -20,7 +20,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-    initContainers:
+      initContainers:
       - name: git-clone-repository
         image: "{{ template "git.image" . }}"
         imagePullPolicy: {{ .Values.git.pullPolicy | quote }}
@@ -32,7 +32,7 @@ spec:
         image: "{{ template "node.image" . }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         workingDir: /app
-        command: ['/bin/bash', '-c', 'npm install']
+        command: ['/bin/sh', '-c', 'npm install']
         env:
         - name: HOME
           value: /tmp
@@ -41,10 +41,10 @@ spec:
           mountPath: /app
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: "{{ template "node.image" . }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           workingDir: /app
-          command: ['/bin/bash', '-c', 'npm start']
+          command: ['/bin/sh', '-c', 'npm start']
           ports:
             - name: http
               containerPort: {{ .Values.applicationPort }}
@@ -67,6 +67,9 @@ spec:
               mountPath: /app
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+      - name: app
+      emptyDir: {}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

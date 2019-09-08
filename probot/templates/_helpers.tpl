@@ -31,6 +31,19 @@ Return the proper git image name
 {{- $registryName := .Values.git.registry -}}
 {{- $repositoryName := .Values.git.repository -}}
 {{- $tag := .Values.git.tag | toString -}}
+{{- printf "%s/%s:%s" $registryName $repositoryName $tag -}}
+{{- end -}}
+
+{{/*
+Return the proper Node image name
+*/}}
+{{- define "node.image" -}}
+{{- $registryName := .Values.image.registry -}}
+{{- $repositoryName := .Values.image.repository -}}
+{{- $tag := .Values.image.tag | toString -}}
+{{- printf "%s/%s:%s" $registryName $repositoryName $tag -}}
+{{- end -}}
+
 
 {{/*
 Create chart name and version as used by the chart label.

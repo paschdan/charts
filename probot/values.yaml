@@ -3,6 +3,7 @@
 # Declare variables to be passed into your templates.
 
 image:
+  registry: docker.io
   repository: node
   tag: alpine
   pullPolicy: IfNotPresent
@@ -32,13 +33,14 @@ service:
   port: 80
 
 ingress:
-  enabled: false
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
+  enabled: true
+  annotations: 
+    kubernetes.io/ingress.class: traefik
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: chart-example.local
-      paths: []
+    - host: probot.k8s
+      paths: 
+      - '/'
 
   tls: []
   #  - secretName: chart-example-tls
